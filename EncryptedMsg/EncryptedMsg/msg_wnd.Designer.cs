@@ -1,6 +1,6 @@
 ﻿namespace EncryptedMsg
 {
-    partial class msg_wnd
+    partial class Msg_wnd
     {
         /// <summary>
         /// Required designer variable.

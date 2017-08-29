@@ -5,14 +5,14 @@ using System.Threading;
 
 namespace EncryptedMsg
 {
-    public partial class msg_wnd : Form
+    public partial class Msg_wnd : Form
     {
-        public msg_wnd()
+        public Msg_wnd()
         {
             InitializeComponent();
         }
 
-        public msg_wnd(TcpClient _client,string str)
+        public Msg_wnd(TcpClient _client,string str)
         {
             ntwrkstrm = _client.GetStream();
             name = str;

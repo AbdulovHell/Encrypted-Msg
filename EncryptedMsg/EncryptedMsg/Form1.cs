@@ -12,13 +12,19 @@ namespace EncryptedMsg
         public Form1()
         {
             InitializeComponent();
-            MsgWnds = new List<msg_wnd>();
+            MsgWnds = new List<Msg_wnd>();
             Clients = new List<TcpClient>();
+        }
+
+        ~Form1()
+        {
+            //TODO: завершить все потоки, закрыть все сокеты
+            SrvThrd.Abort();
         }
 
         private Thread SrvThrd;
         private NetworkStream ntwrkstrm;
-        private List<msg_wnd> MsgWnds;
+        private List<Msg_wnd> MsgWnds;
         private List<TcpClient> Clients;
 
         private void AcceptSrv()
@@ -65,7 +71,7 @@ namespace EncryptedMsg
 
         private void NewWindow(TcpClient _client,string str)
         {
-            MsgWnds.Add(new msg_wnd(_client, str));
+            MsgWnds.Add(new Msg_wnd(_client, str));
             MsgWnds[MsgWnds.Count - 1].Show();
         }
 
@@ -98,11 +104,6 @@ namespace EncryptedMsg
             msg[0] = 1;
             System.Text.Encoding.ASCII.GetBytes(NameEdit.Text.ToCharArray(), 0, NameEdit.Text.Length, msg, 1);
             ntwrkstrm.Write(msg, 0, msg.Length);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
