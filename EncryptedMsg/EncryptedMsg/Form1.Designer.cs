@@ -28,20 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ConnectP2P = new System.Windows.Forms.Button();
+            this.P2PAddrEdit = new System.Windows.Forms.TextBox();
+            this.NameEdit = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.ProgLog = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // ConnectP2P
+            // 
+            this.ConnectP2P.Location = new System.Drawing.Point(12, 38);
+            this.ConnectP2P.Name = "ConnectP2P";
+            this.ConnectP2P.Size = new System.Drawing.Size(100, 23);
+            this.ConnectP2P.TabIndex = 0;
+            this.ConnectP2P.Text = "Connect p2p";
+            this.ConnectP2P.UseVisualStyleBackColor = true;
+            this.ConnectP2P.Click += new System.EventHandler(this.ConnectP2P_Click);
+            // 
+            // P2PAddrEdit
+            // 
+            this.P2PAddrEdit.Location = new System.Drawing.Point(12, 12);
+            this.P2PAddrEdit.Name = "P2PAddrEdit";
+            this.P2PAddrEdit.Size = new System.Drawing.Size(100, 20);
+            this.P2PAddrEdit.TabIndex = 1;
+            this.P2PAddrEdit.Text = "127.0.0.1";
+            // 
+            // NameEdit
+            // 
+            this.NameEdit.Location = new System.Drawing.Point(118, 12);
+            this.NameEdit.Name = "NameEdit";
+            this.NameEdit.Size = new System.Drawing.Size(150, 20);
+            this.NameEdit.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(261, 98);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 20);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // ProgLog
+            // 
+            this.ProgLog.Location = new System.Drawing.Point(12, 124);
+            this.ProgLog.Multiline = true;
+            this.ProgLog.Name = "ProgLog";
+            this.ProgLog.Size = new System.Drawing.Size(324, 106);
+            this.ProgLog.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 369);
+            this.ClientSize = new System.Drawing.Size(346, 242);
+            this.Controls.Add(this.ProgLog);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.NameEdit);
+            this.Controls.Add(this.P2PAddrEdit);
+            this.Controls.Add(this.ConnectP2P);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button ConnectP2P;
+        private System.Windows.Forms.TextBox P2PAddrEdit;
+        private System.Windows.Forms.TextBox NameEdit;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox ProgLog;
     }
 }
 
