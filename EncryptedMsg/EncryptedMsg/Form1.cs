@@ -16,29 +16,34 @@ namespace EncryptedMsg
             Clients = new List<TcpClient>();
         }
 
-        ~Form1()
-        {
-            //TODO: завершить все потоки, закрыть все сокеты
-            SrvThrd.Abort();
-        }
-
         private Thread SrvThrd;
-        private NetworkStream ntwrkstrm;
         private List<Msg_wnd> MsgWnds;
         private List<TcpClient> Clients;
+        private TcpListener Listener;
+        private NetworkStream Stream;
 
         private void AcceptSrv()
         {
-            TcpListener Listener = new TcpListener(IPAddress.Any, 5555);
-            Listener.Start(10);
+            Listener = new TcpListener(IPAddress.Any, 5555);
+
+            try
+            {
+                Listener.Start(10);
+            }
+            catch (SocketException e)
+            {
+                MessageBox.Show(e.Message);
+                Invoke(new Action(Close));
+                return;
+            }
 
             do
             {
                 Clients.Add(Listener.AcceptTcpClient());
-                NetworkStream Stream = Clients[Clients.Count-1].GetStream();
+                Stream = Clients[Clients.Count - 1].GetStream();
 
                 byte[] buffer = new byte[512];
-                bool accepted=false;
+                bool accepted = false;
 
                 do
                 {
@@ -51,8 +56,8 @@ namespace EncryptedMsg
                         {
                             case 1:
                                 {
-                                    string str = System.Text.Encoding.ASCII.GetString(buffer, 1, i);
-                                    Invoke(new Action<TcpClient,string>(NewWindow), Clients[Clients.Count-1], str);
+                                    string str = System.Text.Encoding.ASCII.GetString(buffer, 1, i - 1);
+                                    Invoke(new Action<TcpClient, string, string>(NewWindow), Clients[Clients.Count - 1], str, NameEdit.Text);
                                     accepted = true;
                                 }
                                 break;
@@ -69,9 +74,9 @@ namespace EncryptedMsg
             ProgLog.AppendText(msg + "\n");
         }
 
-        private void NewWindow(TcpClient _client,string str)
+        private void NewWindow(TcpClient _client, string str, string _name)
         {
-            MsgWnds.Add(new Msg_wnd(_client, str));
+            MsgWnds.Add(new Msg_wnd(_client, str, _name));
             MsgWnds[MsgWnds.Count - 1].Show();
         }
 
@@ -83,27 +88,15 @@ namespace EncryptedMsg
 
         private void ConnectP2P_Click(object sender, EventArgs e)
         {
-            int cnt = 0;
-            TcpClient client;
-            while (true)
-            {
-                cnt++;
-                try
-                {
-                    client = new TcpClient(P2PAddrEdit.Text, 5555);
-                    if (client.Connected) break;
-                }
-                catch (SocketException exception)
-                {
-                    ProgLog.AppendText(exception.Message);
-                }
-                if (cnt >= 10) return;
-            }
-            ntwrkstrm = client.GetStream();
-            byte[] msg = new byte[1 + NameEdit.Text.Length];
-            msg[0] = 1;
-            System.Text.Encoding.ASCII.GetBytes(NameEdit.Text.ToCharArray(), 0, NameEdit.Text.Length, msg, 1);
-            ntwrkstrm.Write(msg, 0, msg.Length);
+            MsgWnds.Add(new Msg_wnd(P2PAddrEdit.Text, NameEdit.Text));
+            MsgWnds[MsgWnds.Count - 1].Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Stream != null) Stream.Close();
+            if (Listener != null) Listener.Stop();
+            SrvThrd.Abort();
         }
     }
 }

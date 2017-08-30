@@ -76,8 +76,10 @@
             this.Controls.Add(this.NameEdit);
             this.Controls.Add(this.P2PAddrEdit);
             this.Controls.Add(this.ConnectP2P);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
