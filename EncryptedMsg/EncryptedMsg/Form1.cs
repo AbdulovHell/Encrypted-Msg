@@ -21,10 +21,10 @@ namespace EncryptedMsg
         private List<TcpClient> Clients;
         private TcpListener Listener;
         private NetworkStream Stream;
-
+        
         private void AcceptSrv()
-        {
-            Listener = new TcpListener(IPAddress.Any, 5555);
+        {       
+            Listener = new TcpListener(IPAddress.Any, EncryptedMsg.Properties.Settings.Default.DefaultPort);
 
             try
             {

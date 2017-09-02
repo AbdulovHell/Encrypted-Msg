@@ -48,7 +48,7 @@ namespace EncryptedMsg
                 cnt++;
                 try
                 {
-                    client = new TcpClient(_ip, 5555);
+                    client = new TcpClient(_ip, EncryptedMsg.Properties.Settings.Default.DefaultPort);
                     if (client.Connected) break;
                 }
                 catch (SocketException exception)
