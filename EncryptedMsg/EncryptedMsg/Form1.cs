@@ -21,11 +21,22 @@ namespace EncryptedMsg
         private List<TcpClient> Clients;
         private TcpListener Listener;
         private NetworkStream Stream;
-        
+
         private void AcceptSrv()
-        {       
+        {
             Listener = new TcpListener(IPAddress.Any, EncryptedMsg.Properties.Settings.Default.DefaultPort);
 
+            byte[] input = new byte[512];
+            string txt = "The quick brown fox jumps over the lazy dog";
+            System.Text.Encoding.ASCII.GetBytes(txt.ToCharArray(), 0, txt.Length, input, 0);
+
+            KeccakSum gh = new KeccakSum(input);        
+            gh.FIPS202_SHA3_512();
+
+            byte[] output = gh.Output;
+
+            string str123 = System.Text.Encoding.ASCII.GetString(output, 0, 512);
+            Invoke(new Action<string>(WriteLog), str123);
             try
             {
                 Listener.Start(10);
