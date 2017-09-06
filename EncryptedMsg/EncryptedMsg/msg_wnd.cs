@@ -97,7 +97,8 @@ namespace EncryptedMsg
                             }
                             break;
                         default:
-                            string str = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
+                            //string str = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
+                            string str = TextCoder.Decode(buffer);
                             Invoke(new Action<string>(WriteLog), name + ": " + str);
                             break;
                     }
@@ -107,8 +108,8 @@ namespace EncryptedMsg
 
         private void SendMsgBtn_Click(object sender, EventArgs e)
         {
-            byte[] buf = new byte[SendMsgEdit.Text.Length];
-            System.Text.Encoding.ASCII.GetBytes(SendMsgEdit.Text.ToCharArray(), 0, SendMsgEdit.Text.Length, buf, 0);
+            byte[] buf = TextCoder.Encode(SendMsgEdit.Text);
+
             ntwrkstrm.Write(buf, 0, buf.Length);
             ChatLogEdit.AppendText(myname + ": " + SendMsgEdit.Text + "\n");
             SendMsgEdit.Clear();

@@ -84,6 +84,9 @@ namespace EncryptedMsg
         {
             SrvThrd = new Thread(new ThreadStart(AcceptSrv));
             SrvThrd.Start();
+
+            //byte[] mas = TextCoder.Encode("тестовая строка");
+            //string str = TextCoder.Decode(mas);
         }
 
         private void ConnectP2P_Click(object sender, EventArgs e)
